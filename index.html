@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>BIMDECK — Precision Scan-to-BIM &amp; Architectural Engineering</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline": "#7a7582", "surface-tint": "#6750a4", "on-primary": "#ffffff", "on-error-container": "#93000a", "surface-dim": "#ded8e0", "error-container": "#ffdad6", "error": "#ba1a1a", "tertiary": "#765b00", "primary-fixed": "#e9ddff", "on-tertiary-fixed": "#241a00", "surface-variant": "#e6e0e9", "on-background": "#1d1b20", "secondary-fixed": "#e9ddff", "secondary": "#63597c", "primary-fixed-dim": "#cfbcff", "on-secondary-fixed-variant": "#4b4263", "surface-container-lowest": "#ffffff", "surface-container-high": "#ece6ee", "on-tertiary-fixed-variant": "#594400", "secondary-container": "#e1d4fd", "on-error": "#ffffff", "on-primary-fixed-variant": "#4f378a", "inverse-surface": "#322f35", "surface-bright": "#fdf7ff", "outline-variant": "#cbc4d2", "on-secondary-container": "#645a7d", "on-secondary": "#ffffff", "tertiary-fixed": "#ffdf93", "inverse-on-surface": "#f5eff7", "on-surface-variant": "#494551", "on-primary-fixed": "#22005d", "surface-container": "#f2ecf4", "on-primary-container": "#e0d2ff", "on-tertiary": "#ffffff", "inverse-primary": "#cfbcff", "primary": "#4f378a", "surface-container-low": "#f8f2fa", "surface": "#fdf7ff", "tertiary-fixed-dim": "#e7c365", "on-secondary-fixed": "#1f1635", "secondary-fixed-dim": "#cdc0e9", "surface-container-highest": "#e6e0e9", "on-tertiary-container": "#503d00", "background": "#fdf7ff", "primary-container": "#6750a4", "on-surface": "#1d1b20", "tertiary-container": "#c9a74d" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": {}, "fontFamily": { "headline": [ "Public Sans" ], "display": [ "Public Sans" ], "body": [ "Public Sans" ], "label": [ "Public Sans" ] }, "fontSize": {} } } }</script><style id="scroll-motion">
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 60;
+    height: 2px;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    pointer-events: none;
+    background: linear-gradient(90deg, #4f378a 0%, #cfbcff 100%);
+  }
+  header {
+    transition: box-shadow 0.45s ease, background-color 0.45s ease;
+  }
+  header.is-scrolled {
+    background-color: rgba(253, 247, 255, 0.96);
+    box-shadow: 0 10px 40px rgba(29, 27, 32, 0.08);
+  }
+  @keyframes heroRise {
+    from { opacity: 0; transform: translate3d(0, 28px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  html.js-motion .hero-rise {
+    opacity: 0;
+    animation: heroRise 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  html.js-motion .hero-rise-1 { animation-delay: 0.05s; }
+  html.js-motion .hero-rise-2 { animation-delay: 0.2s; }
+  html.js-motion .hero-rise-3 { animation-delay: 0.38s; }
+  html.js-motion main > div > section:not(:first-of-type) > .max-w-7xl > :not(.grid),
+  html.js-motion main > div > section:not(:first-of-type) > .max-w-7xl > .grid > *,
+  html.js-motion footer.scroll-target {
+    opacity: 0;
+    transform: translate3d(0, 36px, 0) scale(0.985);
+    transition:
+      opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.3s ease,
+      background-color 0.3s ease,
+      border-color 0.3s ease;
+  }
+  html.js-motion main > div > section:not(:first-of-type) > .max-w-7xl > :not(.grid).is-in,
+  html.js-motion main > div > section:not(:first-of-type) > .max-w-7xl > .grid > *.is-in,
+  html.js-motion footer.scroll-target.is-in {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  html.js-motion .scroll-target:not(.is-in) > .h-px,
+  html.js-motion .scroll-target:not(.is-in) .h-px.w-8 {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  html.js-motion .scroll-target.is-in > .h-px,
+  html.js-motion .scroll-target.is-in .h-px.w-8 {
+    transform: scaleX(1);
+    transform-origin: left center;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #scroll-progress { display: none; }
+    html.js-motion .hero-rise,
+    html.js-motion main > div > section:not(:first-of-type) > .max-w-7xl > :not(.grid),
+    html.js-motion main > div > section:not(:first-of-type) > .max-w-7xl > .grid > *,
+    html.js-motion footer.scroll-target {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style><script>document.documentElement.classList.add('js-motion');</script></head><body class="bg-surface font-body text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6"><a class="flex items-center gap-3.5 group text-left" data-path="home" href="#"><div class="w-10 h-10 rounded-lg bg-inverse-surface flex items-center justify-center text-inverse-on-surface font-headline font-bold text-lg tracking-wider transition-transform group-hover:scale-[1.02]">B</div><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline font-bold text-lg tracking-wider uppercase text-on-surface leading-none">BIMDECK</span><span class="text-[10px] font-mono tracking-widest text-primary font-semibold">ENG</span></div><span class="text-[10px] tracking-widest font-mono uppercase text-on-surface-variant font-medium mt-1">Precision Digital Engineering</span></div></a><div class="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low shadow-[0_1px_4px_rgba(0,0,0,0.03)]"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span><span class="text-[11px] font-mono tracking-wider uppercase text-on-surface-variant font-medium">SCAN-TO-BIM / DIGITAL ENGINEERING</span></div><nav class="hidden lg:flex items-center gap-1" data-active-classes="bg-surface-container-high text-on-surface font-medium"><a class="px-3.5 py-2 text-xs font-headline uppercase tracking-wider text-on-surface-variant hover:text-on-surface rounded-lg transition-colors" data-path="about" href="#">About</a><a class="px-3.5 py-2 text-xs font-headline uppercase tracking-wider text-on-surface-variant hover:text-on-surface rounded-lg transition-colors" data-path="services" href="#">Services</a><a class="px-3.5 py-2 text-xs font-headline uppercase tracking-wider text-on-surface-variant hover:text-on-surface rounded-lg transition-colors" data-path="deliverables" href="#">Deliverables</a><a class="px-3.5 py-2 text-xs font-headline uppercase tracking-wider text-on-surface-variant hover:text-on-surface rounded-lg transition-colors" data-path="industries" href="#">Industries</a><a class="px-3.5 py-2 text-xs font-headline uppercase tracking-wider text-on-surface-variant hover:text-on-surface rounded-lg transition-colors" data-path="process" href="#">Process</a><a class="px-3.5 py-2 text-xs font-headline uppercase tracking-wider text-on-surface-variant hover:text-on-surface rounded-lg transition-colors" data-path="contact" href="#">Contact</a></nav><div class="flex items-center gap-4"><a class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-headline uppercase tracking-wider font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary-container transition-all shadow-sm" data-path="contact" href="#">Discuss Your Project</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full">
+<!-- SECTION 1 — CINEMATIC 3D HERO -->
+<section class="relative w-full min-h-[942px] flex flex-col justify-between overflow-hidden bg-inverse-surface text-inverse-on-surface">
+<!-- Embedded Interactive 3D Architectural Scene -->
+<!-- STITCH_THREEJS_START:ANIMATION_1 class="absolute inset-0 w-full h-full bg-transparent" -->
+<div class="absolute inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_1" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_1');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  // Three.js Interactive Architectural 3D Model with Scroll-Linked Progression and States
+const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
+camera.position.set(22, 14, 28);
+camera.lookAt(0, 2, 0);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+renderer.setSize(width, height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
+
+// Lighting setup - Architectural Studio lighting
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+scene.add(ambientLight);
+
+const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+keyLight.position.set(30, 45, 25);
+keyLight.castShadow = true;
+keyLight.shadow.mapSize.width = 1024;
+keyLight.shadow.mapSize.height = 1024;
+scene.add(keyLight);
+
+const blueFill = new THREE.DirectionalLight(0x6D9FE8, 0.7);
+blueFill.position.set(-25, 20, -20);
+scene.add(blueFill);
+
+const rimLight = new THREE.DirectionalLight(0xA9B2BC, 0.8);
+rimLight.position.set(0, -15, 30);
+scene.add(rimLight);
+
+// Group holding all architectural elements
+const archGroup = new THREE.Group();
+scene.add(archGroup);
+
+// Materials
+const matConcrete = new THREE.MeshPhongMaterial({
+  color: 0xF4F5F3,
+  shininess: 20,
+  flatShading: false
+});
+
+const matGlass = new THREE.MeshPhysicalMaterial ? new THREE.MeshPhongMaterial({
+  color: 0x6D9FE8,
+  transparent: true,
+  opacity: 0.45,
+  shininess: 90
+}) : new THREE.MeshPhongMaterial({ color: 0x6D9FE8, transparent: true, opacity: 0.4 });
+
+const matGraphite = new THREE.MeshPhongMaterial({
+  color: 0x20262D,
+  shininess: 40
+});
+
+const matWire = new THREE.LineBasicMaterial({
+  color: 0x6D9FE8,
+  transparent: true,
+  opacity: 0.35,
+  linewidth: 1
+});
+
+const matPoints = new THREE.PointsMaterial({
+  color: 0x6D9FE8,
+  size: 0.18,
+  transparent: true,
+  opacity: 0.75
+});
+
+// 1. Podiums and Base Terraces
+const baseGeo = new THREE.BoxGeometry(26, 1.2, 22);
+const baseMesh = new THREE.Mesh(baseGeo, matGraphite);
+baseMesh.position.y = -0.6;
+archGroup.add(baseMesh);
+
+const plinthGeo = new THREE.BoxGeometry(22, 0.6, 18);
+const plinth = new THREE.Mesh(plinthGeo, matConcrete);
+plinth.position.y = 0.3;
+archGroup.add(plinth);
+
+// 2. Central Classical / Modernist Architectural Pavilion with Domes & Colonnades
+// Main Hall
+const hallGeo = new THREE.BoxGeometry(14, 6, 10);
+const hall = new THREE.Mesh(hallGeo, matConcrete);
+hall.position.set(0, 3.6, 0);
+archGroup.add(hall);
+
+// Wings
+const leftWingGeo = new THREE.BoxGeometry(6, 4.5, 8);
+const leftWing = new THREE.Mesh(leftWingGeo, matConcrete);
+leftWing.position.set(-9, 2.85, 0);
+archGroup.add(leftWing);
+
+const rightWingGeo = new THREE.BoxGeometry(6, 4.5, 8);
+const rightWing = new THREE.Mesh(rightWingGeo, matConcrete);
+rightWing.position.set(9, 2.85, 0);
+archGroup.add(rightWing);
+
+// Modern Glass Atrium front facade
+const atriumGeo = new THREE.BoxGeometry(10, 5, 2.5);
+const atrium = new THREE.Mesh(atriumGeo, matGlass);
+atrium.position.set(0, 3.1, 4.8);
+archGroup.add(atrium);
+
+// Classical Colonnade in front of Atrium
+for (let i = -4; i <= 4; i += 1.6) {
+  const colGeo = new THREE.CylinderGeometry(0.22, 0.26, 5.2, 16);
+  const col = new THREE.Mesh(colGeo, matConcrete);
+  col.position.set(i, 3.2, 6.2);
+  archGroup.add(col);
+}
+
+// 3. Central Architectural Dome with Drum
+const drumGeo = new THREE.CylinderGeometry(4.2, 4.2, 2.4, 32);
+const drum = new THREE.Mesh(drumGeo, matConcrete);
+drum.position.set(0, 7.8, 0);
+archGroup.add(drum);
+
+// Ribbed Dome
+const domeGeo = new THREE.SphereGeometry(4.2, 32, 20, 0, Math.PI * 2, 0, Math.PI / 2);
+const dome = new THREE.Mesh(domeGeo, matConcrete);
+dome.position.set(0, 9.0, 0);
+archGroup.add(dome);
+
+// Lantern & Spire on Dome
+const lanternGeo = new THREE.CylinderGeometry(0.8, 0.9, 1.8, 16);
+const lantern = new THREE.Mesh(lanternGeo, matConcrete);
+lantern.position.set(0, 13.8, 0);
+archGroup.add(lantern);
+
+const spireGeo = new THREE.ConeGeometry(0.4, 2.5, 16);
+const spire = new THREE.Mesh(spireGeo, matGraphite);
+spire.position.set(0, 15.6, 0);
+archGroup.add(spire);
+
+// Flanking Secondary Domes on Wings
+[-9, 9].forEach(xPos => {
+  const subDrum = new THREE.CylinderGeometry(2.2, 2.2, 1.5, 24);
+  const sDrum = new THREE.Mesh(subDrum, matConcrete);
+  sDrum.position.set(xPos, 5.8, 0);
+  archGroup.add(sDrum);
+
+  const subDome = new THREE.SphereGeometry(2.2, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+  const sDome = new THREE.Mesh(subDome, matConcrete);
+  sDome.position.set(xPos, 6.55, 0);
+  archGroup.add(sDome);
+});
+
+// Wireframe Outline overlay (representing BIM structural LOD model)
+const wireGroup = new THREE.Group();
+[hall, leftWing, rightWing, drum, baseMesh].forEach(mesh => {
+  const edgeGeo = new THREE.EdgesGeometry(mesh.geometry);
+  const line = new THREE.LineSegments(edgeGeo, matWire);
+  line.position.copy(mesh.position);
+  line.rotation.copy(mesh.rotation);
+  line.scale.copy(mesh.scale);
+  wireGroup.add(line);
+});
+archGroup.add(wireGroup);
+
+// Scan-to-BIM Point Cloud Cloudlet
+const pointCount = 2200;
+const pointGeo = new THREE.BufferGeometry();
+const positions = new Float32Array(pointCount * 3);
+for (let i = 0; i < pointCount * 3; i += 3) {
+  const r = 8 + Math.random() * 9;
+  const theta = Math.random() * Math.PI * 2;
+  const y = Math.random() * 15;
+  positions[i] = Math.cos(theta) * r + (Math.random() - 0.5) * 4;
+  positions[i + 1] = y;
+  positions[i + 2] = Math.sin(theta) * r + (Math.random() - 0.5) * 4;
+}
+pointGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+const scanPoints = new THREE.Points(pointGeo, matPoints);
+archGroup.add(scanPoints);
+
+// Ground Technical Coordinate Grid
+const gridHelper = new THREE.GridHelper(38, 38, 0x6D9FE8, 0x20262D);
+gridHelper.position.y = -1.2;
+scene.add(gridHelper);
+
+// Precision Target Rings
+const ringGeo = new THREE.RingGeometry(16, 16.15, 64);
+const ringMat = new THREE.MeshBasicMaterial({ color: 0x6D9FE8, side: THREE.DoubleSide, transparent: true, opacity: 0.25 });
+const ring = new THREE.Mesh(ringGeo, ringMat);
+ring.rotation.x = Math.PI / 2;
+ring.position.y = -1.18;
+scene.add(ring);
+
+// Interactivity & Scroll synchronization
+let targetRotY = 0;
+let targetCamY = 14;
+let targetCamDist = 38;
+let mouseX = 0, mouseY = 0;
+
+window.addEventListener('mousemove', (e) => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 0.4;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 0.3;
+});
+
+// Update function on scroll
+function handleScroll() {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const scrollRatio = Math.min(scrollTop / (window.innerHeight * 2.5), 1);
+  
+  // States progression linked to scroll
+  targetRotY = scrollRatio * Math.PI * 1.35;
+  targetCamY = 14 - scrollRatio * 5;
+  
+  // Point cloud opacity changes through capture -> process -> intelligent model
+  if (scanPoints && scanPoints.material) {
+    if (scrollRatio < 0.2) {
+      scanPoints.material.opacity = 0.85;
+    } else if (scrollRatio < 0.5) {
+      scanPoints.material.opacity = 0.4;
+    } else {
+      scanPoints.material.opacity = 0.15;
+    }
+  }
+}
+window.addEventListener('scroll', handleScroll, { passive: true });
+
+// Listen to custom prototype state triggers from UI buttons
+window.addEventListener('bimdeck-state-change', (e) => {
+  const state = e.detail;
+  if (state === 'hero') { targetRotY = 0; targetCamDist = 38; }
+  else if (state === 'capture') { targetRotY = 0.7; targetCamDist = 30; }
+  else if (state === 'process') { targetRotY = 1.6; targetCamDist = 32; }
+  else if (state === 'model') { targetRotY = 2.4; targetCamDist = 28; }
+  else if (state === 'deliver') { targetRotY = 3.2; targetCamDist = 34; }
+});
+
+// Animation Loop
+let clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const delta = clock.getDelta();
+  const time = clock.getElapsedTime();
+
+  // Subtle ambient rotation
+  archGroup.rotation.y += (targetRotY + Math.sin(time * 0.4) * 0.05 + mouseX - archGroup.rotation.y) * 0.04;
+  archGroup.rotation.x += (mouseY * 0.2 - archGroup.rotation.x) * 0.04;
+
+  // Pulse scan points subtly
+  if (scanPoints) {
+    scanPoints.rotation.y = time * 0.05;
+  }
+
+  // Camera damping
+  camera.position.y += (targetCamY - camera.position.y) * 0.05;
+  camera.lookAt(0, 3.5, 0);
+
+  renderer.render(scene, camera);
+}
+animate();
+
+// Resize handling
+window.addEventListener('resize', () => {
+  const w = container.clientWidth || window.innerWidth;
+  const h = container.clientHeight || window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+});
+
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_1 -->
+<!-- Blueprint Grid Underlay Overlay (non-blocking) -->
+<div class="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#cfbcff_1px,transparent_1px)] [background-size:24px_24px]"></div>
+<!-- Gradient Ambient Scrim to prioritize Left Reading Hierarchy -->
+<div class="absolute inset-0 pointer-events-none bg-gradient-to-r from-inverse-surface via-inverse-surface/80 lg:via-inverse-surface/40 to-transparent"></div>
+<!-- Hero Content Container -->
+<div class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pt-12 pb-8 flex flex-col justify-between flex-grow">
+<!-- Top Meta Strip -->
+<div class="hero-rise hero-rise-1 flex flex-wrap items-center justify-between gap-4 pt-2">
+<div class="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-surface-container-high/20 backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span class="text-xs font-mono uppercase tracking-widest text-primary-fixed">SCAN-TO-BIM / DIGITAL ENGINEERING</span>
+</div>
+<div class="hidden md:flex items-center gap-6 font-mono text-[11px] text-surface-variant">
+<span>LAT: 12.9716° N</span>
+<span>LON: 77.5946° E</span>
+<span class="text-primary-fixed">TOLERANCE: ±2.0mm</span>
+</div>
+</div>
+<!-- Main Headline Column -->
+<div class="hero-rise hero-rise-2 max-w-2xl mt-12 mb-10 flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<span class="text-xs font-mono uppercase tracking-widest text-primary-fixed font-semibold">ISO 19650 Registered Production Workflows</span>
+<h1 class="font-headline font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-surface-bright leading-[1.08]">
+            BIM, CAD &amp; DIGITAL ENGINEERING SOLUTIONS
+          </h1>
+</div>
+<p class="text-lg sm:text-xl font-headline font-medium text-secondary-fixed-dim">
+          From scanned reality to digital precision.
+        </p>
+<p class="text-sm sm:text-base font-normal text-surface-variant leading-relaxed">
+          Your trusted offshore partner for 3D laser scanning, Scan-to-BIM, and algorithmic CAD modeling. Transforming raw dense point cloud datasets into accurate, coordination-ready digital twins.
+        </p>
+<!-- CTA Action Hub -->
+<div class="flex flex-wrap items-center gap-4 pt-2">
+<a class="px-6 py-3.5 rounded bg-primary-fixed text-on-primary-fixed font-headline font-semibold text-xs uppercase tracking-wider hover:bg-surface-bright transition-all shadow-lg flex items-center gap-2" href="#contact-section">
+<span>Discuss Your Project</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+<a class="px-6 py-3.5 rounded bg-surface-container-high/30 hover:bg-surface-container-high/50 text-surface-bright font-headline font-medium text-xs uppercase tracking-wider transition-all backdrop-blur-sm flex items-center gap-2" href="#capabilities">
+<span>Explore Capabilities</span>
+<span class="material-symbols-outlined text-sm">view_in_ar</span>
+</a>
+</div>
+</div>
+<!-- Interactive Prototype State Controller Bar -->
+<div class="hero-rise hero-rise-3 w-full bg-surface-container-highest/10 backdrop-blur-xl p-4 rounded-xl shadow-2xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed text-lg">tune</span>
+<span class="text-[11px] font-mono uppercase tracking-widest text-surface-variant font-semibold">
+            Digital Twin Phase Controller:
+          </span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full lg:w-auto" id="state-controller">
+<button class="state-btn active-state px-3 py-2 rounded text-left flex flex-col bg-primary text-on-primary transition-all" data-state="capture" onclick="switchBimState(this, 'capture')" type="button">
+<span class="text-[10px] font-mono tracking-widest uppercase opacity-80">01 / CAPTURE</span>
+<span class="text-xs font-semibold">Point Cloud</span>
+</button>
+<button class="state-btn px-3 py-2 rounded text-left flex flex-col bg-surface-container-high/20 hover:bg-surface-container-high/40 text-surface-bright transition-all" data-state="process" onclick="switchBimState(this, 'process')" type="button">
+<span class="text-[10px] font-mono tracking-widest uppercase opacity-80">02 / PROCESS</span>
+<span class="text-xs font-semibold">Wireframe Mesh</span>
+</button>
+<button class="state-btn px-3 py-2 rounded text-left flex flex-col bg-surface-container-high/20 hover:bg-surface-container-high/40 text-surface-bright transition-all" data-state="model" onclick="switchBimState(this, 'model')" type="button">
+<span class="text-[10px] font-mono tracking-widest uppercase opacity-80">03 / MODEL</span>
+<span class="text-xs font-semibold">LOD 300-350</span>
+</button>
+<button class="state-btn px-3 py-2 rounded text-left flex flex-col bg-surface-container-high/20 hover:bg-surface-container-high/40 text-surface-bright transition-all" data-state="deliver" onclick="switchBimState(this, 'deliver')" type="button">
+<span class="text-[10px] font-mono tracking-widest uppercase opacity-80">04 / DELIVER</span>
+<span class="text-xs font-semibold">IFC &amp; CAD Sets</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2 — ABOUT BIMDECK -->
+<section class="w-full bg-surface-container-lowest py-20 lg:py-28">
+<div class="max-w-7xl mx-auto px-6 lg:px-12">
+<!-- Section Supertitle -->
+<div class="flex items-center gap-3 mb-6">
+<span class="h-px w-8 bg-primary"></span>
+<span class="text-xs font-mono uppercase tracking-widest text-primary font-semibold">ENGINEERING FOUNDATION</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+<!-- Left Narrative Column -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<h2 class="font-headline font-bold text-3xl sm:text-4xl lg:text-5xl text-on-surface tracking-tight leading-tight">
+            Precision Engineering. Intelligent Digital Models.
+          </h2>
+<p class="text-base sm:text-lg text-on-surface-variant leading-relaxed">
+            BIMDECK is a BIM-focused production partner for AEC firms, surveyors, and contractors worldwide. We convert 3D laser scans and point cloud data into accurate, coordination-ready BIM models, delivered to your standards and timelines.
+          </p>
+<!-- Core Competencies Matrix -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+<div class="p-4 rounded-xl bg-surface-container-low flex items-start gap-3.5">
+<span class="material-symbols-outlined text-primary text-xl">layers</span>
+<div>
+<h3 class="font-headline font-semibold text-sm text-on-surface">LOD 100 to 400</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Flexible Level of Detail modeling tailored precisely to schematic, construction, or fabrication needs.</p>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low flex items-start gap-3.5">
+<span class="material-symbols-outlined text-primary text-xl">rule</span>
+<div>
+<h3 class="font-headline font-semibold text-sm text-on-surface">Clash Detection Audit</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Pre-construction spatial audits detecting architectural, structural, and MEP interference early.</p>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low flex items-start gap-3.5">
+<span class="material-symbols-outlined text-primary text-xl">scatter_plot</span>
+<div>
+<h3 class="font-headline font-semibold text-sm text-on-surface">Registration &amp; As-Builts</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Seamless stitching of multi-station LiDAR data into unified, zero-drift spatial coordinate frameworks.</p>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low flex items-start gap-3.5">
+<span class="material-symbols-outlined text-primary text-xl">precision_manufacturing</span>
+<div>
+<h3 class="font-headline font-semibold text-sm text-on-surface">Reverse Engineering</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Generating parametric CAD geometry and heritage-grade profiles directly from raw point scans.</p>
+</div>
+</div>
+</div>
+<!-- Confidentiality & Security Assurance Pill -->
+<div class="p-4 rounded-xl bg-surface-container flex items-center justify-between gap-4 mt-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">verified_user</span>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-on-surface uppercase tracking-wide">Enterprise NDA &amp; IP Protection Protocol</span>
+<span class="text-[11px] text-on-surface-variant">Encrypted secure project repositories with strict non-disclosure legal compliance.</span>
+</div>
+</div>
+<span class="hidden sm:inline-flex px-2.5 py-1 rounded bg-surface-container-highest text-[10px] font-mono uppercase text-on-surface-variant font-medium">ISO 27001 READY</span>
+</div>
+</div>
+<!-- Right Architectural Inspection Card -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<div class="w-full rounded-2xl bg-inverse-surface text-inverse-on-surface p-6 shadow-xl relative overflow-hidden">
+<!-- Background Technical Grid Line Art -->
+<div class="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(to_right,#cbc4d2_1px,transparent_1px),linear-gradient(to_bottom,#cbc4d2_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
+<div class="flex items-center justify-between pb-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span class="font-mono text-xs uppercase text-primary-fixed tracking-wider">Orthographic Elevation Preview</span>
+</div>
+<span class="font-mono text-[10px] text-surface-variant">SECTION A-A'</span>
+</div>
+<!-- Architectural Mock Line-Drawing (Vector Diagram) -->
+<div class="w-full h-52 bg-surface-container-highest/10 rounded-xl relative flex items-center justify-center p-4">
+<svg class="w-full h-full text-secondary-fixed-dim" fill="none" stroke="currentColor" viewbox="0 0 360 200">
+<!-- Ground Datum -->
+<line stroke-dasharray="4 2" stroke-width="1.5" x1="10" x2="350" y1="180" y2="180"></line>
+<text fill="currentColor" font-family="monospace" font-size="9" x="12" y="195">RL ±0.000m (DATUM)</text>
+<!-- Floor Structural Slabs -->
+<line stroke-width="1" x1="40" x2="320" y1="140" y2="140"></line>
+<line stroke-width="1" x1="40" x2="320" y1="90" y2="90"></line>
+<line stroke-width="1.5" x1="40" x2="320" y1="40" y2="40"></line>
+<!-- Columns & Structural Grid -->
+<line stroke-width="1.5" x1="60" x2="60" y1="40" y2="180"></line>
+<line stroke-width="1.5" x1="150" x2="150" y1="40" y2="180"></line>
+<line stroke-width="1.5" x1="240" x2="240" y1="40" y2="180"></line>
+<line stroke-width="1.5" x1="300" x2="300" y1="40" y2="180"></line>
+<!-- Scan Dimension Reference Strings -->
+<line stroke="#e9ddff" stroke-width="0.8" x1="150" x2="240" y1="110" y2="110"></line>
+<circle cx="150" cy="110" fill="#e9ddff" r="2"></circle>
+<circle cx="240" cy="110" fill="#e9ddff" r="2"></circle>
+<text fill="#e9ddff" font-family="monospace" font-size="8" text-anchor="middle" x="180" y="105">9000 mm</text>
+<!-- Point Cloud Registration Target Crosshairs -->
+<circle cx="60" cy="90" r="6" stroke="#ffdf93" stroke-dasharray="2 1" stroke-width="1"></circle>
+<circle cx="240" cy="140" r="6" stroke="#ffdf93" stroke-dasharray="2 1" stroke-width="1"></circle>
+</svg>
+<!-- Tolerance Stamp Floating Tag -->
+<div class="absolute bottom-3 right-3 px-2 py-1 rounded bg-primary/80 backdrop-blur-md text-[10px] font-mono text-on-primary">
+                TOLERANCE: ±2mm VERIFIED
+              </div>
+</div>
+<!-- Coordinate Axes Metadata -->
+<div class="grid grid-cols-3 gap-2 pt-4 text-center">
+<div class="p-2 rounded bg-surface-container-high/10">
+<span class="block text-[9px] font-mono text-surface-variant uppercase">X-Axis Deviation</span>
+<span class="text-xs font-mono font-bold text-on-primary-container">0.82 mm</span>
+</div>
+<div class="p-2 rounded bg-surface-container-high/10">
+<span class="block text-[9px] font-mono text-surface-variant uppercase">Y-Axis Deviation</span>
+<span class="text-xs font-mono font-bold text-on-primary-container">1.14 mm</span>
+</div>
+<div class="p-2 rounded bg-surface-container-high/10">
+<span class="block text-[9px] font-mono text-surface-variant uppercase">Z-Level Check</span>
+<span class="text-xs font-mono font-bold text-emerald-300">PASS (0.4mm)</span>
+</div>
+</div>
+</div>
+<!-- Secondary Image Showing Point Cloud Density -->
+<div class="rounded-xl overflow-hidden shadow-md bg-surface-container relative h-48">
+<img class="w-full h-full object-cover" data-alt="High density 3D laser scan point cloud of modern architectural structural framework showing chromatic depth mapping, LiDAR density points, and wireframe structural elements against a sleek dark studio backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv-03S1ShDKrBSF4gH4vE5OAfl79kMDBT2UrwxnA5tPTMOCekCID3vKTgrWepoPZe4puUNrU84ZbE4uEgRTDgbtr783UCnz6DDpoqXHooje3lHw99fxlJL4msL4uq9G0vus6B-NcVIcucd37IKBGEpuwtfWTpgg0wUKrJAuUoWzzg1otYcmdIFXYTJ1rT-9Cva1BNqEwz62HcUDwjgeYOifnMfoDOdv_tnkBKcwBr3c5_ctTW8z9O13A"/>
+<div class="absolute bottom-2 left-3 px-2 py-0.5 rounded bg-inverse-surface/80 text-[10px] font-mono text-inverse-on-surface">
+              Raw LiDAR Point Cloud — 48M Points Processed
+            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3 — CORE SERVICES -->
+<section class="w-full bg-surface-container-low py-20 lg:py-28" id="capabilities">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-14">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono uppercase tracking-widest text-primary font-semibold">PRODUCTION SPECIALIZATIONS</span>
+</div>
+<h2 class="font-headline font-bold text-3xl sm:text-4xl text-on-surface tracking-tight">
+            From Point Cloud to Project-Ready Deliverables
+          </h2>
+<p class="text-base text-on-surface-variant">
+            Comprehensive 3D laser scanning to digital deliverables engineered for global AEC practices.
+          </p>
+</div>
+<div class="hidden md:flex items-center gap-2 text-xs font-mono text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>NATIVE REVIT / CAD STANDARDS</span>
+</div>
+</div>
+<!-- 3 Premium Service Cards -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Card 1: SCAN TO BIM -->
+<div class="rounded-2xl bg-surface-container-lowest p-8 shadow-sm flex flex-col justify-between hover:shadow-xl transition-all duration-300 group">
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<span class="w-12 h-12 rounded-xl bg-primary-fixed text-primary flex items-center justify-center font-headline font-bold text-lg">
+<span class="material-symbols-outlined text-2xl">domain</span>
+</span>
+<span class="font-mono text-xs text-on-surface-variant font-medium">01 // BIM</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl text-on-surface group-hover:text-primary transition-colors">
+                Scan to BIM
+              </h3>
+<p class="text-sm text-on-surface-variant mt-2 leading-relaxed">
+                Intelligent architectural, structural, and MEP models aligned to required LOD and project standards. Structured parametric elements with rich metadata.
+              </p>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<span class="text-[10px] font-mono uppercase text-on-surface-variant tracking-wider font-semibold">Supported Formats &amp; Detail</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">Revit (.RVT)</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">IFC 2x3 / 4</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">Navisworks (.NWD)</span>
+<span class="px-2.5 py-1 rounded bg-secondary-container text-xs font-mono text-on-secondary-container font-semibold">LOD 200–400</span>
+</div>
+</div>
+</div>
+<div class="pt-8 flex items-center justify-between">
+<a class="inline-flex items-center gap-1.5 text-xs font-headline font-bold uppercase tracking-wider text-primary group-hover:translate-x-1 transition-transform" href="#contact-section">
+<span>Request a Quote</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+<span class="text-xs text-on-surface-variant font-mono">Turnaround: 3-5 days</span>
+</div>
+</div>
+<!-- Card 2: SCAN TO 2D DRAWINGS -->
+<div class="rounded-2xl bg-surface-container-lowest p-8 shadow-sm flex flex-col justify-between hover:shadow-xl transition-all duration-300 group">
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<span class="w-12 h-12 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center font-headline font-bold text-lg">
+<span class="material-symbols-outlined text-2xl">architecture</span>
+</span>
+<span class="font-mono text-xs text-on-surface-variant font-medium">02 // 2D CAD</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl text-on-surface group-hover:text-primary transition-colors">
+                Scan to 2D Drawings
+              </h3>
+<p class="text-sm text-on-surface-variant mt-2 leading-relaxed">
+                Accurate floor plans, elevations, sections, reflected ceiling plans (RCP), and detailed technical as-built documentation layered directly to your drafting standards.
+              </p>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<span class="text-[10px] font-mono uppercase text-on-surface-variant tracking-wider font-semibold">Supported Formats &amp; Standards</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">AutoCAD (.DWG)</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">DXF Vector</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">Vector PDF</span>
+<span class="px-2.5 py-1 rounded bg-secondary-container text-xs font-mono text-on-secondary-container font-semibold">AIA / ISO Layers</span>
+</div>
+</div>
+</div>
+<div class="pt-8 flex items-center justify-between">
+<a class="inline-flex items-center gap-1.5 text-xs font-headline font-bold uppercase tracking-wider text-primary group-hover:translate-x-1 transition-transform" href="#contact-section">
+<span>Request a Quote</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+<span class="text-xs text-on-surface-variant font-mono">Strict Layer QA</span>
+</div>
+</div>
+<!-- Card 3: SCAN TO 3D CAD MODELS -->
+<div class="rounded-2xl bg-surface-container-lowest p-8 shadow-sm flex flex-col justify-between hover:shadow-xl transition-all duration-300 group">
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<span class="w-12 h-12 rounded-xl bg-tertiary-fixed text-tertiary flex items-center justify-center font-headline font-bold text-lg">
+<span class="material-symbols-outlined text-2xl">view_in_ar</span>
+</span>
+<span class="font-mono text-xs text-on-surface-variant font-medium">03 // CAD GEOM</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl text-on-surface group-hover:text-primary transition-colors">
+                Scan to 3D CAD Models
+              </h3>
+<p class="text-sm text-on-surface-variant mt-2 leading-relaxed">
+                Detailed 3D models for existing structures, industrial facilities, process equipment, retrofit, and reverse mechanical engineering workflows.
+              </p>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<span class="text-[10px] font-mono uppercase text-on-surface-variant tracking-wider font-semibold">Supported Formats &amp; Software</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">STEP / IGES</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">SolidWorks</span>
+<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">Rhino 3D</span>
+<span class="px-2.5 py-1 rounded bg-secondary-container text-xs font-mono text-on-secondary-container font-semibold">Parametric Solid</span>
+</div>
+</div>
+</div>
+<div class="pt-8 flex items-center justify-between">
+<a class="inline-flex items-center gap-1.5 text-xs font-headline font-bold uppercase tracking-wider text-primary group-hover:translate-x-1 transition-transform" href="#contact-section">
+<span>Request a Quote</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+<span class="text-xs text-on-surface-variant font-mono">Bespoke Families</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4 — WHAT YOU RECEIVE (INDUSTRY-READY DELIVERABLES) -->
+<section class="w-full bg-surface-container-lowest py-20 lg:py-28">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
+<div class="text-center max-w-3xl mx-auto flex flex-col gap-3">
+<span class="text-xs font-mono uppercase tracking-widest text-primary font-semibold">OUTPUT SPECIFICATIONS</span>
+<h2 class="font-headline font-bold text-3xl sm:text-4xl text-on-surface tracking-tight">
+          Industry-Ready Digital Deliverables
+        </h2>
+<p class="text-base text-on-surface-variant">
+          Precision-verified digital assets formatted directly for your production pipeline, eliminating rework and coordination friction.
+        </p>
+</div>
+<!-- Deliverables Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><!-- Deliverable 1 -->
+<div class="deliverable-card rounded-2xl bg-surface-container-low p-6 flex flex-col justify-between group hover:shadow-xl hover:bg-surface-container transition-all cursor-pointer border border-transparent hover:border-outline-variant duration-300 relative" data-deliverable-idx="0" role="button" tabindex="0">
+  <div class="flex flex-col gap-4">
+    <div class="w-full h-40 rounded-xl overflow-hidden bg-surface-container relative">
+      <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Intelligent architectural Autodesk Revit BIM model screenshot showing structural columns, curtain wall mullions, and coordinated MEP ductwork in technical 3D perspective wireframe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaFfjZ-uFd__ByZvBZ2hrP6klwpgAoGdWE2e92FdMazZOh2XLYGxoUz1ionBSPY5ev06H5-FH1NkgZaGr0TtJQyw40QcxgJchSbWteWirRmy_fs7ZH5pBX-UrjtZqxVVRFsnlYOa1CylNabm4ZRj5a26Ilt2ZaRb_8ZTd9337op7ewmqmKMyF4H_POVN1IDlglDQfmgc8S6abvtgMuK52W5Pi1O2MkGtKnvD7TO6Uin0RNBFkz3V_hJQ">
+      <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-inverse-surface/80 text-[10px] font-mono text-inverse-on-surface">.RVT / .IFC</span>
+      <div class="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-inverse-surface/85 backdrop-blur-md text-[10px] font-mono text-surface-bright flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-[13px] text-primary-fixed">visibility</span>
+        <span class="">Inspect Spec</span>
+      </div>
+    </div>
+    <div>
+      <span class="text-[11px] font-mono uppercase text-primary font-semibold tracking-wide">01. BIM Model Geometry</span>
+      <h3 class="font-headline font-bold text-base text-on-surface group-hover:text-primary transition-colors mt-1">Parametric Revit Models</h3>
+      <p class="text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+        Full architectural, structural, and MEP coordination layers with custom family libraries and shared parameters.
+      </p>
+    </div>
+  </div>
+  <div class="pt-4 flex items-center justify-between text-[11px] font-mono text-on-surface-variant border-t border-surface-container-high/60 mt-3">
+    <span class="">LOD 200 - 350</span>
+    <span class="text-primary font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+      <span class="">Ready to Edit</span>
+      <span class="material-symbols-outlined text-xs">arrow_forward</span>
+    </span>
+  </div>
+</div>
+
+<!-- Deliverable 2 -->
+<div class="deliverable-card rounded-2xl bg-surface-container-low p-6 flex flex-col justify-between group hover:shadow-xl hover:bg-surface-container transition-all cursor-pointer border border-transparent hover:border-outline-variant duration-300 relative" data-deliverable-idx="1" role="button" tabindex="0">
+  <div class="flex flex-col gap-4">
+    <div class="w-full h-40 rounded-xl overflow-hidden bg-surface-container relative">
+      <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Architectural CAD floor plan drawing sheet showing precise dimensions, room tag callouts, section cut lines, and title block in high contrast vector drafting style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLsoPI6XhASxba277jnvcGN6BVAMuKStawaXm7bLMHaz9i8aVVcax3tdtPXfrFLDM1nbuL9enMKnjYyJNfAJBxQCKukthqosp_jYYON4t1KsMGA3mJyDNfNaTXBxmAnCSXNsXOwXrwtMIhCe8UyhVnW_itOoEJtrLMJJ0U11VRm3BHWSmkTAUhHucHbEXLFpwxsApy3wyhL611t8TZja2Kpj_IXy-4AQGvxlfUh_IUgJ6w2uPLlzQyXg">
+      <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-inverse-surface/80 text-[10px] font-mono text-inverse-on-surface">.DWG / .PDF</span>
+      <div class="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-inverse-surface/85 backdrop-blur-md text-[10px] font-mono text-surface-bright flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-[13px] text-primary-fixed">visibility</span>
+        <span class="">Inspect Spec</span>
+      </div>
+    </div>
+    <div>
+      <span class="text-[11px] font-mono uppercase text-primary font-semibold tracking-wide">02. 2D As-Built Sets</span>
+      <h3 class="font-headline font-bold text-base text-on-surface group-hover:text-primary transition-colors mt-1">Full Architectural Sheets</h3>
+      <p class="text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+        Cleaned floor plans, longitudinal sections, exterior elevations, and reflected ceiling layouts aligned to AIA/ISO standards.
+      </p>
+    </div>
+  </div>
+  <div class="pt-4 flex items-center justify-between text-[11px] font-mono text-on-surface-variant border-t border-surface-container-high/60 mt-3">
+    <span class="">Layer-Standardized</span>
+    <span class="text-primary font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+      <span class="">Print &amp; Permit</span>
+      <span class="material-symbols-outlined text-xs">arrow_forward</span>
+    </span>
+  </div>
+</div>
+
+<!-- Deliverable 3 -->
+<div class="deliverable-card rounded-2xl bg-surface-container-low p-6 flex flex-col justify-between group hover:shadow-xl hover:bg-surface-container transition-all cursor-pointer border border-transparent hover:border-outline-variant duration-300 relative" data-deliverable-idx="2" role="button" tabindex="0">
+  <div class="flex flex-col gap-4">
+    <div class="w-full h-40 rounded-xl overflow-hidden bg-surface-container relative">
+      <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Detailed 3D CAD mechanical equipment solid model showing reverse engineered piping skid, valves, pumps, and structural frame with smooth NURBS surfaces." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm39JZg5naHMJjmejJd2dhvwpMtINUXS3lA53jJdIRDvFPzxkgFLfaZTPKtiUmUaHrGkvcOg8bVsnLpZSvNGFS3AxmA4cx4-mVNeBb7jGCV4x0RkDh7pRTFHJydcVVVODl6kFiIVfUNi9YHXwM3_zGPdpISCjimF5GT1Eg3jjPlXM_VGvjJUqbr2qjCQCfbmtI_C8enE6jcUjLp3LdH-tQgZT38X8yoLyruE_fOSiz34o7vSR0aqurtg">
+      <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-inverse-surface/80 text-[10px] font-mono text-inverse-on-surface">.STEP / .IGES</span>
+      <div class="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-inverse-surface/85 backdrop-blur-md text-[10px] font-mono text-surface-bright flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-[13px] text-primary-fixed">visibility</span>
+        <span class="">Inspect Spec</span>
+      </div>
+    </div>
+    <div>
+      <span class="text-[11px] font-mono uppercase text-primary font-semibold tracking-wide">03. Parametric Meshes</span>
+      <h3 class="font-headline font-bold text-base text-on-surface group-hover:text-primary transition-colors mt-1">3D CAD Solid Geometry</h3>
+      <p class="text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+        Solid surfaces and reverse-engineered boundary representation models for plant engineering and mechanical retrofits.
+      </p>
+    </div>
+  </div>
+  <div class="pt-4 flex items-center justify-between text-[11px] font-mono text-on-surface-variant border-t border-surface-container-high/60 mt-3">
+    <span class="">NURBS Solids</span>
+    <span class="text-primary font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+      <span class="">SolidWorks / Rhino</span>
+      <span class="material-symbols-outlined text-xs">arrow_forward</span>
+    </span>
+  </div>
+</div>
+
+<!-- Deliverable 4 -->
+<div class="deliverable-card rounded-2xl bg-surface-container-low p-6 flex flex-col justify-between group hover:shadow-xl hover:bg-surface-container transition-all cursor-pointer border border-transparent hover:border-outline-variant duration-300 relative" data-deliverable-idx="3" role="button" tabindex="0">
+  <div class="flex flex-col gap-4">
+    <div class="w-full h-40 rounded-xl overflow-hidden bg-surface-container relative">
+      <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Point cloud clash audit heatmap inspection graphic comparing modeled BIM geometry against raw laser points with color coded green blue and red deviation indicators." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmY9fT1QhuFzqB_p2YmMxaqW4nGiXXlgf5OnTUCv1tMAc8kFRFEti8UXoZiYEugF2FJyXeT0vLD0FIcoIKHQ5PP7l6r9ro1lRmHT2Y-aK20vgoS7JgQ_SsvH_eDdjIeHXws3LauohRzcWj0CSeNJ4PEEE6ueeAxlx7wO8tfH9LBLcyfJnV_KY7oVaVfHkbP_ZDznloEoB1I6mwDGVZdXdO1yZfpJAsYwCSuNnQBQl0vsJhjWyLwOWd7A">
+      <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-inverse-surface/80 text-[10px] font-mono text-inverse-on-surface">QA HEATMAP</span>
+      <div class="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-inverse-surface/85 backdrop-blur-md text-[10px] font-mono text-surface-bright flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-[13px] text-primary-fixed">visibility</span>
+        <span class="">Inspect Spec</span>
+      </div>
+    </div>
+    <div>
+      <span class="text-[11px] font-mono uppercase text-primary font-semibold tracking-wide">04. Quality Reports</span>
+      <h3 class="font-headline font-bold text-base text-on-surface group-hover:text-primary transition-colors mt-1">Deviation &amp; Clash Audit</h3>
+      <p class="text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+        Comprehensive millimetric variance inspection reports highlighting deviations between the raw scan and digital deliverables.
+      </p>
+    </div>
+  </div>
+  <div class="pt-4 flex items-center justify-between text-[11px] font-mono text-on-surface-variant border-t border-surface-container-high/60 mt-3">
+    <span class="">±2mm Tolerance</span>
+    <span class="text-primary font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+      <span class="">Audit Certified</span>
+      <span class="material-symbols-outlined text-xs">arrow_forward</span>
+    </span>
+  </div>
+</div></div>
+</div>
+</section>
+<!-- SECTION 5 — INDUSTRY EXPERTISE -->
+<section class="w-full bg-surface-container py-20 lg:py-28">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-14">
+<div class="flex flex-col gap-3">
+<span class="text-xs font-mono uppercase tracking-widest text-primary font-semibold">APPLICATION DOMAINS</span>
+<h2 class="font-headline font-bold text-3xl sm:text-4xl text-on-surface tracking-tight">
+          Scan-to-BIM Expertise Across Every Sector
+        </h2>
+<p class="text-base text-on-surface-variant max-w-2xl">
+          From complex historic masonry to hyper-dense industrial process piping, our engineers execute workflows customized to sector-specific constraints.
+        </p>
+</div>
+<!-- Sector Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Sector 01 -->
+<div class="rounded-2xl bg-surface-container-lowest p-6 flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex flex-col gap-4">
+<span class="font-mono text-2xl font-bold text-primary">01</span>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Residential Projects</h3>
+<p class="text-xs text-on-surface-variant mt-2 leading-relaxed">
+                Historic restorations, luxury single-family estates, and multi-family high-density developments. Capturing intricate architectural cornices, irregular walls, and structural shifts with laser precision.
+              </p>
+</div>
+</div>
+<div class="pt-4 text-[11px] font-mono text-on-surface-variant">
+            Focus: Heritage Preservation, As-Built Verification
+          </div>
+</div>
+<!-- Sector 02 -->
+<div class="rounded-2xl bg-surface-container-lowest p-6 flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex flex-col gap-4">
+<span class="font-mono text-2xl font-bold text-primary">02</span>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Commercial Spaces</h3>
+<p class="text-xs text-on-surface-variant mt-2 leading-relaxed">
+                Commercial office towers, retail fit-outs, corporate headquarters, and mixed-use complexes. Delivering precise core, shell, and tenant space layout modeling for seamless fit-out coordination.
+              </p>
+</div>
+</div>
+<div class="pt-4 text-[11px] font-mono text-on-surface-variant">
+            Focus: Space Optimization, Tenant Improvements
+          </div>
+</div>
+<!-- Sector 03 -->
+<div class="rounded-2xl bg-surface-container-lowest p-6 flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex flex-col gap-4">
+<span class="font-mono text-2xl font-bold text-primary">03</span>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Infrastructure &amp; Civil</h3>
+<p class="text-xs text-on-surface-variant mt-2 leading-relaxed">
+                Transit hubs, subway stations, pedestrian &amp; vehicular bridges, tunnels, and civil earthworks. Coordinated with geospatial GIS coordinates for comprehensive regional planning.
+              </p>
+</div>
+</div>
+<div class="pt-4 text-[11px] font-mono text-on-surface-variant">
+            Focus: Georeferenced Coordinates, Civil 3D
+          </div>
+</div>
+<!-- Sector 04 -->
+<div class="rounded-2xl bg-surface-container-lowest p-6 flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex flex-col gap-4">
+<span class="font-mono text-2xl font-bold text-primary">04</span>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Industrial &amp; Process Plants</h3>
+<p class="text-xs text-on-surface-variant mt-2 leading-relaxed">
+                Petrochemical refineries, process piping networks, manufacturing plants, and heavy equipment rooms. Exact diameter, flange, and centerline tracing for maintenance and expansion engineering.
+              </p>
+</div>
+</div>
+<div class="pt-4 text-[11px] font-mono text-on-surface-variant">
+            Focus: Piping Centerlines, Spool Drawings
+          </div>
+</div>
+<!-- Sector 05 -->
+<div class="rounded-2xl bg-surface-container-lowest p-6 flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex flex-col gap-4">
+<span class="font-mono text-2xl font-bold text-primary">05</span>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Utilities, Telecom &amp; Energy</h3>
+<p class="text-xs text-on-surface-variant mt-2 leading-relaxed">
+                High-voltage electrical substations, renewable energy solar/wind farms, and telecommunications antenna mount towers with precise wind-load surface mapping.
+              </p>
+</div>
+</div>
+<div class="pt-4 text-[11px] font-mono text-on-surface-variant">
+            Focus: Equipment Clearances, Structural Rigidity
+          </div>
+</div>
+<!-- Sector Summary Card -->
+<div class="rounded-2xl bg-primary text-on-primary p-6 flex flex-col justify-between">
+<div class="flex flex-col gap-3">
+<span class="material-symbols-outlined text-3xl">verified</span>
+<h3 class="font-headline font-bold text-lg">Custom Facility Specs?</h3>
+<p class="text-xs text-primary-fixed-dim leading-relaxed">
+              We ingest E57, LAS, LAZ, RCP, and PTS formats from Leica, Faro, Trimble, and NavVis hardware. Our team configures custom Revit shared parameter schemas to match your internal standards.
+            </p>
+</div>
+<a class="inline-flex items-center gap-2 pt-4 text-xs font-headline font-bold uppercase tracking-wider text-surface-bright hover:underline" href="#contact-section">
+<span>Consult Our Engineers</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 6 — WHY CHOOSE BIMDECK -->
+<section class="w-full bg-surface-container-lowest py-20 lg:py-28">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
+<div class="max-w-3xl flex flex-col gap-3">
+<span class="text-xs font-mono uppercase tracking-widest text-primary font-semibold">THE BIMDECK DIFFERENCE</span>
+<h2 class="font-headline font-bold text-3xl sm:text-4xl text-on-surface tracking-tight">
+          Precise BIM Deliverables, Built Around Your Workflow
+        </h2>
+<p class="text-base text-on-surface-variant">
+          We operate as a frictionless extension of your in-house team — adhering strictly to your execution plans, layering protocols, and delivery schedules.
+        </p>
+</div>
+<!-- 4 Differentiators in Clean Editorial Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Diff 1 -->
+<div class="flex flex-col gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">contact_phone</span>
+</div>
+<h3 class="font-headline font-bold text-base text-on-surface">Dedicated Project Coordinator</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+            Direct daily engineering communication synced to your local business hours. Single point-of-contact accountability prevents scope drift.
+          </p>
+</div>
+<!-- Diff 2 -->
+<div class="flex flex-col gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">checklist_rtl</span>
+</div>
+<h3 class="font-headline font-bold text-base text-on-surface">Multi-Tier Quality Review</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+            Every deliverable passes rigorous automated clash check and senior engineer overlay inspection against raw point clouds before handoff.
+          </p>
+</div>
+<!-- Diff 3 -->
+<div class="flex flex-col gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">integration_instructions</span>
+</div>
+<h3 class="font-headline font-bold text-base text-on-surface">Aligned to Your Standards</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+            We adapt directly to your Revit templates (.rte), project parameters, custom families, line weights, and CAD layering guidelines.
+          </p>
+</div>
+<!-- Diff 4 -->
+<div class="flex flex-col gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">enhanced_encryption</span>
+</div>
+<h3 class="font-headline font-bold text-base text-on-surface">Strict Confidentiality &amp; NDA</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+            Secure enterprise cloud storage, strict access control, and complete intellectual property protection backed by rigorous bilateral NDAs.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 7 — OUR COMMITMENT & 4-STEP PROCESS -->
+<section class="w-full bg-surface-container-low py-20 lg:py-28">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-16">
+<div class="text-center max-w-2xl mx-auto flex flex-col gap-3">
+<span class="text-xs font-mono uppercase tracking-widest text-primary font-semibold">METHODOLOGY</span>
+<h2 class="font-headline font-bold text-3xl sm:text-4xl text-on-surface tracking-tight">
+          Quality-Checked, On-Time, and Transparent
+        </h2>
+<p class="text-base text-on-surface-variant">
+          Our systematic 4-phase production cycle guarantees clear accountability and zero surprises.
+        </p>
+</div>
+<!-- Timeline Process Steps -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+<!-- Step 1 -->
+<div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono font-bold text-primary px-2.5 py-1 rounded bg-surface-container">PHASE 01</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">cloud_upload</span>
+</div>
+<h3 class="font-headline font-bold text-base text-on-surface">Scope &amp; Planning</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+              Scan data intake, point cloud density analysis, coordinate check, and mutual definition of LOD level and deliverable templates.
+            </p>
+</div>
+<div class="mt-6 pt-3 text-[10px] font-mono text-on-surface-variant">
+            Deliverable: Scope Checklist &amp; Milestone Schedule
+          </div>
+</div>
+<!-- Step 2 -->
+<div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono font-bold text-primary px-2.5 py-1 rounded bg-surface-container">PHASE 02</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">construction</span>
+</div>
+<h3 class="font-headline font-bold text-base text-on-surface">Model Development</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+              Coordinate georeferencing, architectural envelope, structural elements, and MEP services modeled directly to raw laser scans.
+            </p>
+</div>
+<div class="mt-6 pt-3 text-[10px] font-mono text-on-surface-variant">
+            Deliverable: 50% Progress Cloud Review
+          </div>
+</div>
+<!-- Step 3 -->
+<div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono font-bold text-primary px-2.5 py-1 rounded bg-surface-container">PHASE 03</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">fact_check</span>
+</div>
+<h3 class="font-headline font-bold text-base text-on-surface">Quality Assurance</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+              Automated deviation inspection heatmaps, clash detection audits, and peer engineering checks verifying geometric fidelity.
+            </p>
+</div>
+<div class="mt-6 pt-3 text-[10px] font-mono text-on-surface-variant">
+            Deliverable: QA Variance Verification Log
+          </div>
+</div>
+<!-- Step 4 -->
+<div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono font-bold text-primary px-2.5 py-1 rounded bg-surface-container">PHASE 04</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">done_all</span>
+</div>
+<h3 class="font-headline font-bold text-base text-on-surface">Final Delivery</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+              Package handoff in native RVT, IFC, CAD, and PDF sets, followed by post-delivery review and revisions support.
+            </p>
+</div>
+<div class="mt-6 pt-3 text-[10px] font-mono text-on-surface-variant">
+            Deliverable: Ready-to-use Native BIM Archive
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 8 — FINAL CTA & CONTACT -->
+<section class="w-full bg-surface-container-lowest py-20 lg:py-28" id="contact-section">
+<div class="max-w-7xl mx-auto px-6 lg:px-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+<!-- Left Contact Text & Form Hub -->
+<div class="lg:col-span-7 flex flex-col gap-8">
+<div class="flex flex-col gap-3">
+<span class="text-xs font-mono uppercase tracking-widest text-primary font-semibold">GET STARTED</span>
+<h2 class="font-headline font-bold text-3xl sm:text-4xl lg:text-5xl text-on-surface tracking-tight">
+              Have a Project in Mind?
+            </h2>
+<p class="text-base text-on-surface-variant leading-relaxed">
+              Share your scan data specifications and project requirements. We'll help define the right scope, Level of Detail (LOD), deliverables, and turnaround timetable.
+            </p>
+</div>
+<!-- Quick Scope Inquiry Form -->
+<form class="grid grid-cols-1 sm:grid-cols-2 gap-4" onsubmit="handleQuoteSubmit(event)">
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-mono text-on-surface-variant uppercase font-medium" for="contact-name">Your Name</label>
+<input class="w-full px-4 py-3 rounded-lg bg-surface-container text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="contact-name" placeholder="Alex Mercer" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-mono text-on-surface-variant uppercase font-medium" for="contact-email">Work Email</label>
+<input class="w-full px-4 py-3 rounded-lg bg-surface-container text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="contact-email" placeholder="alex@firm-architecture.com" required="" type="email"/>
+</div>
+<div class="flex flex-col gap-1.5 sm:col-span-2">
+<label class="text-xs font-mono text-on-surface-variant uppercase font-medium" for="contact-service">Target Service</label>
+<select class="w-full px-4 py-3 rounded-lg bg-surface-container text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="contact-service">
+<option value="scan-to-bim">Scan to BIM (Revit LOD 200 - 400)</option>
+<option value="scan-to-2d">Scan to 2D Drawings (AutoCAD DWG / PDF)</option>
+<option value="scan-to-3d-cad">Scan to 3D CAD Geometry (STEP / SolidWorks)</option>
+<option value="qa-audit">Clash Detection &amp; Deviation Audit</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5 sm:col-span-2">
+<label class="text-xs font-mono text-on-surface-variant uppercase font-medium" for="contact-notes">Project Scope &amp; Scan Format (E57, RCP, LAS)</label>
+<textarea class="w-full px-4 py-3 rounded-lg bg-surface-container text-on-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none" id="contact-notes" placeholder="Approximate floor area, hardware used, timeline needs..." rows="3"></textarea>
+</div>
+<div class="sm:col-span-2 flex flex-wrap items-center gap-4 pt-2">
+<button class="px-6 py-3.5 rounded-lg bg-primary text-on-primary font-headline font-semibold text-xs uppercase tracking-wider hover:bg-primary-container transition-all shadow-md flex items-center gap-2" type="submit">
+<span>Request a Quote</span>
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+<button class="px-6 py-3.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-headline font-medium text-xs uppercase tracking-wider transition-all" onclick="alert('Sample datasets (.rvt, .dwg, QA report) link will be sent to your email.')" type="button">
+                Request a Free Sample
+              </button>
+</div>
+<div class="hidden sm:col-span-2 p-3 rounded-lg bg-secondary-container text-on-secondary-container text-xs font-mono" id="form-feedback">
+              Thank you! Our engineering lead will review your project parameters and respond within 24 hours.
+            </div>
+</form>
+</div>
+<!-- Right Verified Contact Card -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="p-8 rounded-2xl bg-surface-container flex flex-col gap-6 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center font-headline font-bold text-lg">
+                B
+              </div>
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface">BIMDECK Engineering Office</h3>
+<span class="text-xs font-mono text-on-surface-variant">Global Delivery Hub</span>
+</div>
+</div>
+<div class="flex flex-col gap-4 text-sm text-on-surface">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-lg mt-0.5">mail</span>
+<div>
+<span class="text-[10px] font-mono uppercase text-on-surface-variant block">Email Directly</span>
+<a class="font-medium hover:text-primary transition-colors" href="mailto:sales@bimdeck.com">sales@bimdeck.com</a>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-lg mt-0.5">call</span>
+<div>
+<span class="text-[10px] font-mono uppercase text-on-surface-variant block">Direct Phone</span>
+<a class="font-medium hover:text-primary transition-colors" href="tel:+919900885139">+91 99008 85139</a>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-lg mt-0.5">location_on</span>
+<div>
+<span class="text-[10px] font-mono uppercase text-on-surface-variant block">Headquarters</span>
+<span class="font-medium">Bengaluru, Karnataka, India</span>
+</div>
+</div>
+</div>
+<!-- Operating Timezone Indicators -->
+<div class="p-4 rounded-xl bg-surface-container-highest/60 flex flex-col gap-2">
+<span class="text-[10px] font-mono uppercase tracking-widest text-on-surface-variant font-semibold">Active Engineering Shifts</span>
+<div class="flex items-center justify-between text-xs font-mono">
+<span>US Eastern (EST)</span>
+<span class="text-primary font-semibold">Overlapping Coverage</span>
+</div>
+<div class="flex items-center justify-between text-xs font-mono">
+<span>UK / Europe (GMT/CET)</span>
+<span class="text-primary font-semibold">Overlapping Coverage</span>
+</div>
+<div class="flex items-center justify-between text-xs font-mono">
+<span>Australia (AEST)</span>
+<span class="text-primary font-semibold">Full Day Shift</span>
+</div>
+</div>
+</div>
+<!-- Production Facility Static Location Map -->
+<div class="w-full h-44 bg-cover bg-center rounded-2xl shadow-sm overflow-hidden" data-location="Bengaluru, Karnataka, India" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDvWat5pC8kWw55VNIERsxEy8z-RXsbJANKGuPHNyok2tCxL5MUF5t0fSsLZBEe04kT1Aumn48-14sGEWgdiUWt9RLHwRpdy-WMIfoC2rVPxm1oyzCrOc4MITZTtM_ZilcxDHjGcLw4j5PvGnarnqqIB6-YoTgi1F_hF78wsDMh1wG0ffOvZz0RyMLV9k9o-MAuxoSfYsdmoPywwym4_LiWesggLObTdrqXWV0zRDXE7UpUvw1wnOkyLQ')">
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Prototype Interactive Client Controller Logic -->
+<script>
+    function switchBimState(button, stateName) {
+      // Toggle button active visuals
+      const buttons = document.querySelectorAll('#state-controller .state-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-on-primary', 'active-state');
+        btn.classList.add('bg-surface-container-high/20', 'text-surface-bright');
+      });
+
+      button.classList.remove('bg-surface-container-high/20', 'text-surface-bright');
+      button.classList.add('bg-primary', 'text-on-primary', 'active-state');
+
+      // Dispatch event to 3D scene listener
+      window.dispatchEvent(new CustomEvent('bimdeck-state-change', { detail: stateName }));
+    }
+
+    function handleQuoteSubmit(event) {
+      event.preventDefault();
+      const feedback = document.getElementById('form-feedback');
+      if (feedback) {
+        feedback.classList.remove('hidden');
+      }
+    }
+  </script>
+</div></main><!-- HERO TECHNICAL SPECIFICATION MODAL DIALOG -->
+<div id="deliverable-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-10 hidden" role="dialog" aria-modal="true" aria-labelledby="modal-deliverable-title">
+  <!-- Backdrop Scrim with Blur -->
+  <div id="deliverable-modal-backdrop" class="absolute inset-0 bg-inverse-surface/75 backdrop-blur-md transition-opacity duration-300 opacity-0"></div>
+  
+  <!-- Modal Dialog Window -->
+  <div id="deliverable-modal-dialog" class="relative w-full max-w-5xl bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden border border-outline-variant flex flex-col max-h-[92vh] transform transition-all duration-300 scale-95 opacity-0 translate-y-4">
+    <!-- Modal Header Strip -->
+    <div class="px-6 py-4 bg-inverse-surface text-inverse-on-surface flex items-center justify-between border-b border-[#20262D]">
+      <div class="flex items-center gap-3">
+        <span id="modal-badge-number" class="px-2 py-0.5 rounded bg-primary text-on-primary font-mono text-xs font-bold uppercase tracking-wider">01 // BIM</span>
+        <div class="flex items-center gap-2 font-mono text-xs text-surface-variant">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="modal-badge-status" class="uppercase tracking-wider text-primary-fixed">PRODUCTION SPECIFICATION READY</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:inline-block font-mono text-[11px] text-surface-variant">ISO 19650 VERIFIED</span>
+        <button id="deliverable-modal-close" class="w-8 h-8 rounded-full bg-surface-container-high/20 hover:bg-surface-container-high/40 text-inverse-on-surface flex items-center justify-center transition-colors" aria-label="Close modal" type="button">
+          <span class="material-symbols-outlined text-lg leading-none">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Body (Scrollable) -->
+    <div class="p-6 lg:p-8 overflow-y-auto flex flex-col gap-8">
+      <!-- Top Details & Showcase Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        <!-- Left: Image Showcase with technical overlay -->
+        <div class="lg:col-span-7 flex flex-col gap-3">
+          <div class="w-full h-64 sm:h-80 rounded-xl overflow-hidden bg-inverse-surface relative border border-outline-variant shadow-md group">
+            <img id="modal-image" class="w-full h-full object-cover" src="" alt="">
+            <!-- Technical HUD overlay -->
+            <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(#cfbcff_1px,transparent_1px)] [background-size:20px_20px] opacity-15"></div>
+            <div class="absolute top-3 left-3 px-2.5 py-1 rounded bg-inverse-surface/85 backdrop-blur-md text-xs font-mono text-primary-fixed-dim border border-outline-variant/30 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-xs text-emerald-400">center_focus_strong</span>
+              <span id="modal-format-badge" class="">.RVT / .IFC</span>
+            </div>
+            <div class="absolute top-3 right-3 px-2.5 py-1 rounded bg-inverse-surface/85 backdrop-blur-md text-xs font-mono text-surface-bright border border-outline-variant/30">
+              <span id="modal-tolerance-tag" class="">TOLERANCE: ±2.0mm</span>
+            </div>
+            <div class="absolute bottom-3 left-3 right-3 p-2.5 rounded bg-inverse-surface/90 backdrop-blur-md text-[11px] font-mono text-surface-variant flex flex-wrap items-center justify-between gap-2 border border-outline-variant/20">
+              <span id="modal-coord-stamp" class="">GEODETIC DATUM: WGS 84 • COORDINATE-LOCKED</span>
+              <span class="text-emerald-300 font-semibold">MILLIMETRIC ZERO-DRIFT</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-xs text-on-surface-variant font-mono px-1">
+            <span class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-primary">verified</span>
+              Direct point cloud coordinate registration
+            </span>
+            <span class="">QA CHECK: 100% REPRODUCIBLE</span>
+          </div>
+        </div>
+
+        <!-- Right: Deliverable Title & High-level Spec -->
+        <div class="lg:col-span-5 flex flex-col justify-between gap-6">
+          <div class="flex flex-col gap-3">
+            <span id="modal-category-eyebrow" class="text-xs font-mono uppercase tracking-widest text-primary font-semibold">BIM Model Geometry</span>
+            <h2 id="modal-deliverable-title" class="font-headline font-bold text-2xl sm:text-3xl text-on-surface tracking-tight leading-tight">Parametric Revit Models</h2>
+            <p id="modal-deliverable-desc" class="text-sm text-on-surface-variant leading-relaxed">
+              Full architectural, structural, and MEP coordination layers with custom family libraries and shared parameters.
+            </p>
+          </div>
+
+          <!-- Quick Technical Metric Badges -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-1">
+              <span class="text-[10px] font-mono uppercase text-on-surface-variant tracking-wider">Target LOD</span>
+              <span id="modal-target-lod" class="text-sm font-headline font-bold text-primary">LOD 200 - 350</span>
+            </div>
+            <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-1">
+              <span class="text-[10px] font-mono uppercase text-on-surface-variant tracking-wider">Turnaround SLA</span>
+              <span id="modal-turnaround-sla" class="text-sm font-headline font-bold text-on-surface">3 - 5 Business Days</span>
+            </div>
+          </div>
+
+          <!-- Supported Native Formats Pill List -->
+          <div class="flex flex-col gap-2 pt-1">
+            <span class="text-xs font-mono uppercase text-on-surface-variant tracking-wider font-semibold">Exportable File Formats</span>
+            <div id="modal-formats-list" class="flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">Autodesk Revit (.RVT)</span>
+              <span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">Industry Foundation Classes (.IFC 2x3/4)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Breakdown Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-surface-container-high">
+        <!-- Column 1: Engineering Standards -->
+        <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-primary font-headline font-bold text-sm">
+            <span class="material-symbols-outlined text-lg">architecture</span>
+            <span class="">Engineering Standards</span>
+          </div>
+          <ul id="modal-standards-list" class="flex flex-col gap-2 text-xs text-on-surface-variant leading-relaxed">
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">AIA Document G202 Level of Development standards</span></li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">Strict project parameter &amp; template (.rte) adaptation</span></li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">Georeferenced shared coordinates with zero drift</span></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: QA & Verification Protocol -->
+        <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-primary font-headline font-bold text-sm">
+            <span class="material-symbols-outlined text-lg">verified</span>
+            <span class="">Quality Assurance Checklist</span>
+          </div>
+          <ul id="modal-qa-list" class="flex flex-col gap-2 text-xs text-on-surface-variant leading-relaxed">
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">Overlay verification against raw LiDAR point clouds</span></li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">Automated clash detection across all multi-discipline layers</span></li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">Deviation heatmaps certifying millimetric compliance</span></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Typical Client Applications -->
+        <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-primary font-headline font-bold text-sm">
+            <span class="material-symbols-outlined text-lg">assignment_turned_in</span>
+            <span class="">Client Deliverable Inclusions</span>
+          </div>
+          <ul id="modal-inclusions-list" class="flex flex-col gap-2 text-xs text-on-surface-variant leading-relaxed">
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">Native project file with editable parametric families</span></li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">Comprehensive QA variance PDF report &amp; log</span></li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span class="">Revisions support window with dedicated lead coordinator</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <div class="px-6 py-4 bg-surface-container-low border-t border-surface-container-high flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-xs font-mono text-on-surface-variant">
+        <span class="material-symbols-outlined text-sm text-primary">lock</span>
+        <span class="">Enterprise NDA &amp; IP Protection Protocol active</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="modal-action-sample" class="px-4 py-2.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-headline font-medium text-xs uppercase tracking-wider transition-colors" type="button">
+          Request Sample Dataset
+        </button>
+        <a id="modal-action-quote" href="#contact-section" class="px-5 py-2.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-headline font-semibold text-xs uppercase tracking-wider transition-all shadow-sm flex items-center gap-1.5">
+          <span class="">Request Project Quote</span>
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONTROLLER INTERACTION SCRIPT -->
+<script>
+  (function() {
+    const deliverableData = [
+      {
+        badgeNumber: '01 // BIM',
+        status: 'PRODUCTION SPECIFICATION READY',
+        categoryEyebrow: '01. BIM Model Geometry',
+        title: 'Parametric Revit Models',
+        desc: 'Full architectural, structural, and MEP coordination layers built from raw point scans with custom family libraries, parameter mapping, and zero-drift georeferencing.',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDaFfjZ-uFd__ByZvBZ2hrP6klwpgAoGdWE2e92FdMazZOh2XLYGxoUz1ionBSPY5ev06H5-FH1NkgZaGr0TtJQyw40QcxgJchSbWteWirRmy_fs7ZH5pBX-UrjtZqxVVRFsnlYOa1CylNabm4ZRj5a26Ilt2ZaRb_8ZTd9337op7ewmqmKMyF4H_POVN1IDlglDQfmgc8S6abvtgMuK52W5Pi1O2MkGtKnvD7TO6Uin0RNBFkz3V_hJQ',
+        formatBadge: '.RVT / .IFC',
+        tolerance: 'TOLERANCE: ±2.0mm',
+        coordStamp: 'GEODETIC DATUM: WGS 84 • SHARED COORDINATES',
+        targetLod: 'LOD 200 - 350',
+        turnaround: '3 - 5 Business Days',
+        formats: ['Autodesk Revit (.RVT)', 'IFC 2x3 & 4.0', 'Navisworks (.NWD)', 'COBie Data Sheets'],
+        standards: [
+          'AIA G202 / ISO 19650 BIM execution standards',
+          'Custom firm template (.rte) & family parameters matching',
+          'Strict system categorization for MEP and structural frames'
+        ],
+        qaList: [
+          'Point cloud overlay verification with 100% boundary check',
+          'Multi-discipline clash inspection before client handoff',
+          'Level of Detail audit certification signoff'
+        ],
+        inclusions: [
+          'Native parametric RVT models with coordinated links',
+          'Standardized IFC exchange containers',
+          'Dedicated project manager review session'
+        ]
+      },
+      {
+        badgeNumber: '02 // 2D CAD',
+        status: 'AS-BUILT ARCHITECTURAL SHEETS',
+        categoryEyebrow: '02. 2D As-Built Sets',
+        title: 'Full Architectural Sheets',
+        desc: 'Cleaned floor plans, longitudinal sections, exterior elevations, and reflected ceiling layouts layered directly to AIA, ISO, or your studio drafting guidelines.',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCLsoPI6XhASxba277jnvcGN6BVAMuKStawaXm7bLMHaz9i8aVVcax3tdtPXfrFLDM1nbuL9enMKnjYyJNfAJBxQCKukthqosp_jYYON4t1KsMGA3mJyDNfNaTXBxmAnCSXNsXOwXrwtMIhCe8UyhVnW_itOoEJtrLMJJ0U11VRm3BHWSmkTAUhHucHbEXLFpwxsApy3wyhL611t8TZja2Kpj_IXy-4AQGvxlfUh_IUgJ6w2uPLlzQyXg',
+        formatBadge: '.DWG / .PDF',
+        tolerance: 'TOLERANCE: ±1.5mm',
+        coordStamp: 'DATUM: GROUND LEVEL ±0.000m • AS-BUILT ALIGNED',
+        targetLod: 'AIA CAD Standards',
+        turnaround: '2 - 4 Business Days',
+        formats: ['AutoCAD (.DWG)', 'DXF Vector', 'Vector Scaled PDF', 'Plot Style (CTB/STB)'],
+        standards: [
+          'Standardized layering systems (AIA CAD Layer Guidelines)',
+          'Consistent line weights, dimension styles, and font callouts',
+          'Accurate wall thickness, opening, and structural centerlines'
+        ],
+        qaList: [
+          'Dimensional verification against raw station LiDAR slices',
+          'Zero overlapping duplicate line primitives or open contours',
+          'Complete title block and drawing indexing verification'
+        ],
+        inclusions: [
+          'Full set of layered DWG sheets with external references',
+          'Print-ready high-resolution Vector PDFs for permitting',
+          'Layer translation matrix and drawing register'
+        ]
+      },
+      {
+        badgeNumber: '03 // CAD GEOM',
+        status: 'SOLID NURBS & PARAMETRIC MESH',
+        categoryEyebrow: '03. Parametric Meshes',
+        title: '3D CAD Solid Geometry',
+        desc: 'Boundary representation (B-Rep) solid models and reverse-engineered parametric geometries for plant equipment, mechanical skids, piping spools, and heritage restoration.',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCm39JZg5naHMJjmejJd2dhvwpMtINUXS3lA53jJdIRDvFPzxkgFLfaZTPKtiUmUaHrGkvcOg8bVsnLpZSvNGFS3AxmA4cx4-mVNeBb7jGCV4x0RkDh7pRTFHJydcVVVODl6kFiIVfUNi9YHXwM3_zGPdpISCjimF5GT1Eg3jjPlXM_VGvjJUqbr2qjCQCfbmtI_C8enE6jcUjLp3LdH-tQgZT38X8yoLyruE_fOSiz34o7vSR0aqurtg',
+        formatBadge: '.STEP / .IGES',
+        tolerance: 'TOLERANCE: ±1.0mm',
+        coordStamp: 'SURFACE CONTINUITY: G1/G2 TANGENCY AUDITED',
+        targetLod: 'Mechanical Solid',
+        turnaround: '4 - 7 Business Days',
+        formats: ['STEP (AP203/AP214)', 'IGES', 'SolidWorks (.SLDPRT)', 'Rhino 3D (.3DM)'],
+        standards: [
+          'NURBS surface stitching with curvature continuity (G1/G2)',
+          'Reverse engineering directly to scanned flange & pipe centerlines',
+          'Watertight solid bodies ready for CNC or FEA analysis'
+        ],
+        qaList: [
+          'Deviation analysis against dense meshed point clouds',
+          'Wall thickness and pipe diameter tolerance inspections',
+          'Coordinate origin alignment to physical datum planes'
+        ],
+        inclusions: [
+          'Watertight solid CAD assemblies and individual components',
+          'STEP/IGES generic interoperability archives',
+          'Surface deviation comparison heatmaps'
+        ]
+      },
+      {
+        badgeNumber: '04 // QA AUDIT',
+        status: 'MILLIMETRIC DEVIATION AUDIT',
+        categoryEyebrow: '04. Quality Reports',
+        title: 'Deviation & Clash Audit',
+        desc: 'Detailed variance inspection reports comparing as-built laser scan point clouds with design intent or BIM deliverables, identifying misalignments, deflection, and interferences.',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAmY9fT1QhuFzqB_p2YmMxaqW4nGiXXlgf5OnTUCv1tMAc8kFRFEti8UXoZiYEugF2FJyXeT0vLD0FIcoIKHQ5PP7l6r9ro1lRmHT2Y-aK20vgoS7JgQ_SsvH_eDdjIeHXws3LauohRzcWj0CSeNJ4PEEE6ueeAxlx7wO8tfH9LBLcyfJnV_KY7oVaVfHkbP_ZDznloEoB1I6mwDGVZdXdO1yZfpJAsYwCSuNnQBQl0vsJhjWyLwOWd7A',
+        formatBadge: 'QA HEATMAP',
+        tolerance: 'TOLERANCE: ±0.5mm',
+        coordStamp: 'VARIANCE LOG: ISO 9001 / ISO 19650 AUDITED',
+        targetLod: 'Comprehensive QA',
+        turnaround: '1 - 3 Business Days',
+        formats: ['Interactive PDF Report', 'BCF (BIM Collaboration)', 'Navisworks Clash Matrix', 'CSV Deviation Log'],
+        standards: [
+          'Color-coded chromatic heatmaps with custom tolerance bands',
+          'Automated hard & soft clash matrix reporting',
+          'Structural floor flatness & levelness (FF/FL) calculations'
+        ],
+        qaList: [
+          'Senior BIM auditor validation of all identified variances',
+          'Multi-disciplinary spatial clash resolution workflows',
+          'Root cause classification (modeling vs site reality)'
+        ],
+        inclusions: [
+          'Comprehensive PDF Audit Report with high-res ortho views',
+          'Exportable BCF files for instant Revit/Navisworks loading',
+          'Executive variance summary and contractor action checklist'
+        ]
+      }
+    ];
+
+    const modal = document.getElementById('deliverable-modal');
+    const backdrop = document.getElementById('deliverable-modal-backdrop');
+    const dialog = document.getElementById('deliverable-modal-dialog');
+    const closeBtn = document.getElementById('deliverable-modal-close');
+    const sampleBtn = document.getElementById('modal-action-sample');
+    const quoteBtn = document.getElementById('modal-action-quote');
+
+    function populateModal(idx) {
+      const item = deliverableData[idx];
+      if (!item) return;
+
+      document.getElementById('modal-badge-number').textContent = item.badgeNumber;
+      document.getElementById('modal-badge-status').textContent = item.status;
+      document.getElementById('modal-category-eyebrow').textContent = item.categoryEyebrow;
+      document.getElementById('modal-deliverable-title').textContent = item.title;
+      document.getElementById('modal-deliverable-desc').textContent = item.desc;
+
+      const imgEl = document.getElementById('modal-image');
+      imgEl.src = item.image;
+      imgEl.alt = item.title;
+
+      document.getElementById('modal-format-badge').textContent = item.formatBadge;
+      document.getElementById('modal-tolerance-tag').textContent = item.tolerance;
+      document.getElementById('modal-coord-stamp').textContent = item.coordStamp;
+      document.getElementById('modal-target-lod').textContent = item.targetLod;
+      document.getElementById('modal-turnaround-sla').textContent = item.turnaround;
+
+      // Formats
+      const formatsContainer = document.getElementById('modal-formats-list');
+      formatsContainer.innerHTML = item.formats.map(f => `<span class="px-2.5 py-1 rounded bg-surface-container text-xs font-mono text-on-surface">${f}</span>`).join('');
+
+      // Standards
+      const standardsContainer = document.getElementById('modal-standards-list');
+      standardsContainer.innerHTML = item.standards.map(s => `<li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span>${s}</span></li>`).join('');
+
+      // QA List
+      const qaContainer = document.getElementById('modal-qa-list');
+      qaContainer.innerHTML = item.qaList.map(q => `<li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span>${q}</span></li>`).join('');
+
+      // Inclusions
+      const inclusionsContainer = document.getElementById('modal-inclusions-list');
+      inclusionsContainer.innerHTML = item.inclusions.map(inc => `<li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs text-primary mt-0.5">check_circle</span><span>${inc}</span></li>`).join('');
+    }
+
+    function openModal(idx) {
+      populateModal(idx);
+      modal.classList.remove('hidden');
+      // Force reflow for smooth CSS transitions
+      void modal.offsetWidth;
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+      dialog.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
+      dialog.classList.add('opacity-100', 'scale-100', 'translate-y-0');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('opacity-0');
+      dialog.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
+      dialog.classList.add('opacity-0', 'scale-95', 'translate-y-4');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    document.querySelectorAll('.deliverable-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.getAttribute('data-deliverable-idx') || '0', 10);
+        openModal(idx);
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const idx = parseInt(card.getAttribute('data-deliverable-idx') || '0', 10);
+          openModal(idx);
+        }
+      });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (sampleBtn) {
+      sampleBtn.addEventListener('click', () => {
+        alert('Sample dataset link and technical report will be dispatched to your work email.');
+        closeModal();
+      });
+    }
+    if (quoteBtn) {
+      quoteBtn.addEventListener('click', closeModal);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  })();
+</script>
+<footer class="w-full bg-[#111418] text-[#f5eff7] font-body relative overflow-hidden"><div class="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-16 pb-12"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-[#20262D]"><div class="lg:col-span-5 flex flex-col items-start gap-4"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-lg bg-[#20262D] flex items-center justify-center text-white font-headline font-bold text-base tracking-wider">B</div><div class="flex flex-col"><span class="font-headline font-bold text-base tracking-widest uppercase text-white leading-none">BIMDECK</span><span class="text-[9px] font-mono tracking-widest text-[#cbc4d2] uppercase mt-1">Architectural Digital Twin Labs</span></div></div><p class="text-sm text-[#cbc4d2] font-normal leading-relaxed max-w-md">From scanned reality to digital precision. High-fidelity reality capture, 3D laser scan-to-BIM pipelines, and algorithmic CAD modeling for architectural, engineering, and construction assets worldwide.</p><div class="flex items-center gap-2 pt-2"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#20262D] text-[10px] font-mono text-[#cbc4d2] uppercase tracking-wider"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>ISO 19650 READY</span><span class="inline-flex items-center px-2.5 py-1 rounded bg-[#20262D] text-[10px] font-mono text-[#cbc4d2] uppercase tracking-wider">LOD 200 - 500</span></div></div><div class="lg:col-span-3 flex flex-col gap-3"><span class="text-xs font-mono uppercase tracking-widest text-[#cbc4d2] font-semibold">Precision Workflows</span><nav class="flex flex-col gap-2.5"><a class="text-xs text-[#cbc4d2] hover:text-white transition-colors" data-path="scan-to-bim" href="#">Scan to BIM (Revit Modeling)</a><a class="text-xs text-[#cbc4d2] hover:text-white transition-colors" data-path="scan-to-2d-drawings" href="#">Scan to 2D Drawings (As-Builts)</a><a class="text-xs text-[#cbc4d2] hover:text-white transition-colors" data-path="scan-to-3d-cad" href="#">Scan to 3D CAD Geometry</a><a class="text-xs text-[#cbc4d2] hover:text-white transition-colors" data-path="quality-assurance" href="#">Quality Assurance &amp; Clash Audit</a></nav></div><div class="lg:col-span-4 flex flex-col gap-3"><span class="text-xs font-mono uppercase tracking-widest text-[#cbc4d2] font-semibold">Engineering Office</span><div class="flex flex-col gap-2 text-xs text-[#cbc4d2]"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-[#cbc4d2]">mail</span><a class="hover:text-white transition-colors" href="mailto:sales@bimdeck.com">sales@bimdeck.com</a></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-[#cbc4d2]">call</span><a class="hover:text-white transition-colors" href="tel:+919900885139">+91 99008 85139</a></div><div class="flex items-start gap-2"><span class="material-symbols-outlined text-sm text-[#cbc4d2] mt-0.5">location_on</span><span>Bengaluru, Karnataka, India</span></div></div><div class="mt-3 p-3 rounded bg-[#181c22] border border-[#20262D] flex flex-col gap-1"><span class="text-[10px] font-mono uppercase text-[#cbc4d2]">Grid Coordinate Stamp</span><span class="text-[11px] font-mono text-white">12°58'37.4"N 77°35'44.2"E • WGS 84</span></div></div></div><div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-[#cbc4d2]"><div>© 2025 BIMDECK Digital Engineering. All rights reserved.</div><div class="flex items-center gap-6"><span>Confidential &amp; ISO standard compliant workflows</span><a class="hover:text-white transition-colors" data-path="privacy-policy" href="#">Privacy</a><a class="hover:text-white transition-colors" data-path="terms-of-service" href="#">Terms</a></div></div></div></footer><script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bar = document.createElement('div');
+  bar.id = 'scroll-progress';
+  bar.setAttribute('aria-hidden', 'true');
+  document.body.prepend(bar);
+
+  var header = document.querySelector('header');
+  var ticking = false;
+  var targets = [];
+
+  function revealEntered() {
+    var line = window.innerHeight * 0.9;
+    targets.forEach(function (el) {
+      if (el.classList.contains('is-in')) return;
+      var rect = el.getBoundingClientRect();
+      if (rect.top < line) el.classList.add('is-in');
+    });
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      var progress = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
+      bar.style.transform = 'scaleX(' + progress + ')';
+      if (header) header.classList.toggle('is-scrolled', window.scrollY > 16);
+      if (!reduce) revealEntered();
+      ticking = false;
+    });
+  }
+  if (reduce) {
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return;
+  }
+
+  document.querySelectorAll('main > div > section:not(:first-of-type) > .max-w-7xl').forEach(function (wrap) {
+    var batch = 0;
+    Array.prototype.forEach.call(wrap.children, function (child) {
+      var group = child.classList.contains('grid') ? child.children : [child];
+      Array.prototype.forEach.call(group, function (el) {
+        el.classList.add('scroll-target');
+        el.style.transitionDelay = Math.min(batch * 90, 450) + 'ms';
+        batch += 1;
+        targets.push(el);
+      });
+    });
+  });
+
+  var footer = document.querySelector('footer');
+  if (footer) {
+    footer.classList.add('scroll-target');
+    targets.push(footer);
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-in');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.01, rootMargin: '0px 0px -10% 0px' });
+
+  targets.forEach(function (el) { observer.observe(el); });
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+</script></body></html>
